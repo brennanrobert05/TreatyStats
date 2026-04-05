@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Richkov Stats</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { margin: 0; padding: 0; background: transparent; }
+        .player table { width: 100%; border-collapse: collapse; }
+        .player th, .player td { border: 1px solid #ccc; padding: 6px 10px; text-align: center; }
+        .player thead { background-color: #1a1a2e; color: white; }
+    </style>
+</head>
+<body>
+    <div class="player" id="Richkov">
+        <table>
+            <thead>
+                <tr>
+                    <th>Appearances</th>
+                    <th>Goals</th>
+                    <th>Assists</th>
+                    <th>Yellow Cards</th>
+                    <th>Red Cards</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        (async () => {
+            const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRIh_l1IoUD8yLLM9-wpjopLWikuU-AHpDEKAtE2E6KboCPdvviZU_BE6ndxgJDf7b37qUvpwwB3eTh/pub?output=csv";
+            const response = await fetch(url);
+            const text = await response.text();
+            const rows = text.split("\n").map(row => row.split(","));
+            const headers = rows[0];
+            const data = rows.slice(1);
+
+            data.forEach(row => {
+                let player = {};
+                headers.forEach((header, i) => {
+                    player[header.trim()] = row[i]?.trim() ?? "-";
+                });
+
+                const playerDiv = document.getElementById(player.id);
+                if (!playerDiv) return;
+
+                const cells = playerDiv.querySelectorAll("td");
+
+                if (player["Clean Sheets"] && player["Clean Sheets"] !== "-") {
+                    cells[0].textContent = player["Appearances"];
+                    cells[1].textContent = player["Clean Sheets"];
+                    cells[2].textContent = player["Assists"];
+                    cells[3].textContent = player["Yellow"];
+                    cells[4].textContent = player["Red"];
+                } else {
+                    cells[0].textContent = player["Appearances"];
+                    cells[1].textContent = player["Goals"];
+                    cells[2].textContent = player["Assists"];
+                    cells[3].textContent = player["Yellow"];
+                    cells[4].textContent = player["Red"];
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
