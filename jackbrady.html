@@ -56,17 +56,17 @@
                 const cells = playerDiv.querySelectorAll("td");
 
                 if (player["Clean Sheets"] && player["Clean Sheets"] !== "-") {
-                    cells[1].textContent = player["Appearances"];
-                    cells[2].textContent = player["Clean Sheets"];
-                    cells[3].textContent = player["Assists"];
-                    cells[4].textContent = player["Yellow"];
-                    cells[5].textContent = player["Red"];
+                    cells[0].textContent = player["Appearances"];
+                    cells[1].textContent = player["Clean Sheets"];
+                    cells[2].textContent = player["Assists"];
+                    cells[3].textContent = player["Yellow"];
+                    cells[4].textContent = player["Red"];
                 } else {
-                    cells[1].textContent = player["Appearances"];
-                    cells[2].textContent = player["Goals"];
-                    cells[3].textContent = player["Assists"];
-                    cells[4].textContent = player["Yellow"];
-                    cells[5].textContent = player["Red"];
+                    cells[0].textContent = player["Appearances"];
+                    cells[1].textContent = player["Goals"];
+                    cells[2].textContent = player["Assists"];
+                    cells[3].textContent = player["Yellow"];
+                    cells[4].textContent = player["Red"];
                 }
             });
         })();
