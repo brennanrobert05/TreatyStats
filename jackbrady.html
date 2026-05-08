@@ -36,40 +36,33 @@
         </table>
     </div>
     <script>
-        (async () => {
-            const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRIh_l1IoUD8yLLM9-wpjopLWikuU-AHpDEKAtE2E6KboCPdvviZU_BE6ndxgJDf7b37qUvpwwB3eTh/pub?output=csv";
-            const response = await fetch(url);
-            const text = await response.text();
-            const rows = text.split("\n").map(row => row.split(","));
-            const headers = rows[0];
-            const data = rows.slice(1);
+(async () => {
+    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRIh_l1IoUD8yLLM9-wpjopLWikuU-AHpDEKAtE2E6KboCPdvviZU_BE6ndxgJDf7b37qUvpwwB3eTh/pub?output=csv";
+    const response = await fetch(url);
+    const text = await response.text();
+    const rows = text.split("\n").map(row => row.split(","));
+    const headers = rows[0];
+    const data = rows.slice(1);
 
-            data.forEach(row => {
-                let player = {};
-                headers.forEach((header, i) => {
-                    player[header.trim()] = row[i]?.trim() ?? "-";
-                });
+    data.forEach(row => {
+        let player = {};
+        headers.forEach((header, i) => {
+            player[header.trim()] = row[i]?.trim() ?? "-";
+        });
 
-                const playerDiv = document.getElementById(player.id);
-                if (!playerDiv) return;
+        const playerDiv = document.getElementById(player.id);
+        if (!playerDiv) return;
 
-                const cells = playerDiv.querySelectorAll("td");
+        const cells = playerDiv.querySelectorAll("td");
+        const goalsOrCleanSheets = player["Goals/Clean Sheets"] ?? "-";
 
-                if (player["Clean Sheets"] && player["Clean Sheets"] !== "-") {
-                    cells[0].textContent = player["Appearances"];
-                    cells[1].textContent = player["Clean Sheets"];
-                    cells[2].textContent = player["Assists"];
-                    cells[3].textContent = player["Yellow"];
-                    cells[4].textContent = player["Red"];
-                } else {
-                    cells[0].textContent = player["Appearances"];
-                    cells[1].textContent = player["Goals"];
-                    cells[2].textContent = player["Assists"];
-                    cells[3].textContent = player["Yellow"];
-                    cells[4].textContent = player["Red"];
-                }
-            });
-        })();
-    </script>
+        cells[0].textContent = player["Appearances"];
+        cells[1].textContent = goalsOrCleanSheets;
+        cells[2].textContent = player["Assists"];
+        cells[3].textContent = player["Yellow Cards"];
+        cells[4].textContent = player["Red Cards"];
+    });
+})();
+</script>
 </body>
 </html>
